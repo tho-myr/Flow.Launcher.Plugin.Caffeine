@@ -42,7 +42,7 @@ public class Caffeine : IPlugin, ISettingProvider, IDisposable
     /// <returns>List of results</returns>
     public List<Result> Query(Query query)
     {
-        var result = new Result
+        var caffeineResult = new Result
         {
             Title = $"Turn {CaffeineState()} Caffeine",
             SubTitle = "Toggle Caffeine off and on.",
@@ -60,7 +60,20 @@ public class Caffeine : IPlugin, ISettingProvider, IDisposable
             },
             IcoPath = _iconPath
         };
-        return new List<Result> { result };
+
+        var mouseMoverResult = new Result
+        {
+            Title = $"Turn {MouseMoverState()} Mouse Mover",
+            SubTitle = "Toggle smart mouse movement (pauses when you move mouse, resumes after 5s).",
+            Action = c =>
+            {
+                MouseMover.Toggle();
+                return true;
+            },
+            IcoPath = _iconPath
+        };
+
+        return new List<Result> { caffeineResult, mouseMoverResult };
     }
 
     /// <summary>
@@ -70,6 +83,15 @@ public class Caffeine : IPlugin, ISettingProvider, IDisposable
     private string CaffeineState()
     {
         return !IsActive ? "On" : "Off";
+    }
+
+    /// <summary>
+    /// Get the current state of mouse mover for display
+    /// </summary>
+    /// <returns>String indicating next action (On/Off)</returns>
+    private string MouseMoverState()
+    {
+        return !MouseMover.IsRunning ? "On" : "Off";
     }
 
     /// <summary>
@@ -115,5 +137,6 @@ public class Caffeine : IPlugin, ISettingProvider, IDisposable
     public void Dispose()
     {
         StopCaffeine();
+        MouseMover.Stop();
     }
 }
