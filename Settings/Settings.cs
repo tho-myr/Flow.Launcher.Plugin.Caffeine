@@ -21,4 +21,14 @@ public class Settings
     /// Whether to show tray icon when caffeine is active
     /// </summary>
     public bool ShowTrayIcon { get; set; } = true;
+
+    /// <summary>
+    /// Whether to start mouse mover automatically when Flow Launcher starts
+    /// </summary>
+    public bool StartMouseMoverWithFlowLauncher { get; set; } = false;
+
+    /// <summary>
+    /// Delay in seconds before mouse mover starts after no user mouse movement
+    /// </summary>
+    public int MouseMoverDelaySeconds { get; set; } = 5;
 }

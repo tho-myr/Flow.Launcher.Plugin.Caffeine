@@ -18,6 +18,7 @@ public class Caffeine : IPlugin, ISettingProvider, IDisposable
     private Settings.Settings _settings;
     private string _iconPath;
     private string _mouseMoverIconPath;
+    private string _settingsIconPath;
     
     /// <summary>
     /// Initialize the plugin
@@ -29,11 +30,21 @@ public class Caffeine : IPlugin, ISettingProvider, IDisposable
         _settings = context.API.LoadSettingJsonStorage<Settings.Settings>();
         _iconPath = Path.Combine(context.CurrentPluginMetadata.PluginDirectory, "Images/icon.png");
         _mouseMoverIconPath = Path.Combine(context.CurrentPluginMetadata.PluginDirectory, "Images/mouse-icon.png");
+        _settingsIconPath = Path.Combine(context.CurrentPluginMetadata.PluginDirectory, "Images/settings-icon.png");
+
+        // Configure mouse mover delay
+        MouseMover.SetUserMovementDelay(_settings.MouseMoverDelaySeconds);
 
         // Start caffeine automatically if the setting is enabled
         if (_settings.StartWithFlowLauncher)
         {
             StartCaffeine();
+        }
+        
+        // Start mouse mover automatically if the setting is enabled
+        if (_settings.StartMouseMoverWithFlowLauncher)
+        {
+            MouseMover.Start();
         }
     }
 
@@ -48,6 +59,7 @@ public class Caffeine : IPlugin, ISettingProvider, IDisposable
         {
             Title = $"Turn {CaffeineState()} Caffeine",
             SubTitle = "Toggle Caffeine off and on.",
+            Score = 100000,
             Action = c =>
             {
                 if (!IsActive)
@@ -67,6 +79,7 @@ public class Caffeine : IPlugin, ISettingProvider, IDisposable
         {
             Title = $"Turn {MouseMoverState()} Mouse Mover",
             SubTitle = "Toggle smart mouse movement (pauses when you move mouse, resumes after 5s).",
+            Score = 80000,
             Action = c =>
             {
                 MouseMover.Toggle();
@@ -75,7 +88,20 @@ public class Caffeine : IPlugin, ISettingProvider, IDisposable
             IcoPath = _mouseMoverIconPath
         };
 
-        return new List<Result> { caffeineResult, mouseMoverResult };
+        var settingsResult = new Result
+        {
+            Title = $"Open Flow Launcher Settings",
+            SubTitle = "Open settings to customize plugin further (◠‿◠)",
+            Score = 60000,
+            Action = c =>
+            {
+                _context.API.OpenSettingDialog();
+                return true;
+            },
+            IcoPath = _settingsIconPath
+        };
+
+        return new List<Result> { caffeineResult, mouseMoverResult, settingsResult };
     }
 
     /// <summary>

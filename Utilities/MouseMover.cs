@@ -49,6 +49,7 @@ public static class MouseMover
     private static POINT _lastKnownPosition;
     private static DateTime _lastUserMovement = DateTime.MinValue;
     private static bool _isAutomatedMovement = false;
+    private static int _userMovementDelaySeconds = 5;
 
     /// <summary>
     /// Gets whether the mouse mover is currently running
@@ -97,7 +98,7 @@ public static class MouseMover
                     
                     // Check if we should pause due to recent user movement
                     var timeSinceUserMovement = DateTime.Now - _lastUserMovement;
-                    if (timeSinceUserMovement.TotalSeconds < 5.0)
+                    if (timeSinceUserMovement.TotalSeconds < _userMovementDelaySeconds)
                     {
                         // User moved mouse recently, wait and check again
                         await Task.Delay(100, _mouseMoverCancellation.Token);
@@ -191,5 +192,14 @@ public static class MouseMover
             Stop();
         else
             Start();
+    }
+
+    /// <summary>
+    /// Set the delay in seconds before mouse mover starts after user movement stops
+    /// </summary>
+    /// <param name="delaySeconds">Delay in seconds (1-300)</param>
+    public static void SetUserMovementDelay(int delaySeconds)
+    {
+        _userMovementDelaySeconds = Math.Max(1, Math.Min(300, delaySeconds));
     }
 }
