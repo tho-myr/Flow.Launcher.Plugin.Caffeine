@@ -43,7 +43,6 @@ public static class MouseMover
     private const int SM_YVIRTUALSCREEN = 77;  // Virtual screen top  
     private const int SM_CXVIRTUALSCREEN = 78; // Virtual screen width
     private const int SM_CYVIRTUALSCREEN = 79; // Virtual screen height
-    private const uint MONITOR_DEFAULTTONEAREST = 2;
 
     private static CancellationTokenSource _mouseMoverCancellation;
     private static bool _isRunning = false;

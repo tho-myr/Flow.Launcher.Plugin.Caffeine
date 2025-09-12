@@ -17,6 +17,7 @@ public class Caffeine : IPlugin, ISettingProvider, IDisposable
     private PluginInitContext _context;
     private Settings.Settings _settings;
     private string _iconPath;
+    private string _mouseMoverIconPath;
     
     /// <summary>
     /// Initialize the plugin
@@ -27,6 +28,7 @@ public class Caffeine : IPlugin, ISettingProvider, IDisposable
         _context = context;
         _settings = context.API.LoadSettingJsonStorage<Settings.Settings>();
         _iconPath = Path.Combine(context.CurrentPluginMetadata.PluginDirectory, "Images/icon.png");
+        _mouseMoverIconPath = Path.Combine(context.CurrentPluginMetadata.PluginDirectory, "Images/mouse-icon.png");
 
         // Start caffeine automatically if the setting is enabled
         if (_settings.StartWithFlowLauncher)
@@ -70,7 +72,7 @@ public class Caffeine : IPlugin, ISettingProvider, IDisposable
                 MouseMover.Toggle();
                 return true;
             },
-            IcoPath = _iconPath
+            IcoPath = _mouseMoverIconPath
         };
 
         return new List<Result> { caffeineResult, mouseMoverResult };
@@ -80,7 +82,7 @@ public class Caffeine : IPlugin, ISettingProvider, IDisposable
     /// Get the current state of caffeine for display
     /// </summary>
     /// <returns>String indicating next action (On/Off)</returns>
-    private string CaffeineState()
+    private static string CaffeineState()
     {
         return !IsActive ? "On" : "Off";
     }
@@ -89,7 +91,7 @@ public class Caffeine : IPlugin, ISettingProvider, IDisposable
     /// Get the current state of mouse mover for display
     /// </summary>
     /// <returns>String indicating next action (On/Off)</returns>
-    private string MouseMoverState()
+    private static string MouseMoverState()
     {
         return !MouseMover.IsRunning ? "On" : "Off";
     }
