@@ -1,4 +1,7 @@
+using System;
 using System.Windows.Controls;
+using System.Windows.Media;
+using System.Windows;
 using Flow.Launcher.Plugin.Caffeine.Tray;
 using Flow.Launcher.Plugin.Caffeine.Utilities;
 
@@ -31,6 +34,7 @@ public partial class PluginSettings : UserControl
         ShowTrayIconCheckBox.IsChecked = _settings.ShowTrayIcon;
         StartMouseMoverWithFlowLauncherCheckBox.IsChecked = _settings.StartMouseMoverWithFlowLauncher;
         MouseMoverDelayTextBox.Text = _settings.MouseMoverDelaySeconds.ToString();
+        HideDelayError(); // Clear any error state when loading settings
         _isLoading = false;
     }
     
@@ -58,10 +62,38 @@ public partial class PluginSettings : UserControl
             SaveSettings();
     }
 
-    private void MouseMoverDelayTextBox_Changed(object sender, TextChangedEventArgs e)
+    private void MouseMoverDelayTextBox_TextChanged(object sender, TextChangedEventArgs e)
     {
         if (!_isLoading)
-            SaveSettings();
+        {
+            if (int.TryParse(MouseMoverDelayTextBox.Text, out int value) && value >= 1 && value <= 3600)
+            {
+                _settings.MouseMoverDelaySeconds = value;
+                HideDelayError();
+                SaveSettings();
+            }
+            else
+            {
+                ShowDelayError();
+            }
+        }
+           
+    }
+
+    /// <summary>
+    /// Shows the delay validation error message and sets textbox border to red
+    /// </summary>
+    private void ShowDelayError()
+    {
+        MouseMoverDelayErrorText.Visibility = Visibility.Visible;
+    }
+
+    /// <summary>
+    /// Hides the delay validation error message and resets textbox border
+    /// </summary>
+    private void HideDelayError()
+    {
+        MouseMoverDelayErrorText.Visibility = Visibility.Collapsed;
     }
 
     private void SaveSettings()
@@ -70,18 +102,6 @@ public partial class PluginSettings : UserControl
         _settings.SendNotifications = SendNotificationsCheckBox.IsChecked ?? true;
         _settings.ShowTrayIcon = ShowTrayIconCheckBox.IsChecked ?? true;
         _settings.StartMouseMoverWithFlowLauncher = StartMouseMoverWithFlowLauncherCheckBox.IsChecked ?? false;
-        
-        // Validate and parse delay input
-        if (int.TryParse(MouseMoverDelayTextBox.Text, out int delay) && delay >= 1 && delay <= 300)
-        {
-            _settings.MouseMoverDelaySeconds = delay;
-        }
-        else
-        {
-            // Reset to default if invalid
-            _settings.MouseMoverDelaySeconds = 5;
-            MouseMoverDelayTextBox.Text = "5";
-        }
         
         _context.API.SaveSettingJsonStorage<Settings>();
 

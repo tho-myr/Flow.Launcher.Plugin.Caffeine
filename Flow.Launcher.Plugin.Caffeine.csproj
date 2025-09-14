@@ -15,6 +15,10 @@
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(MSBuildProjectExtension)' == '.csproj' and '$(Configuration)' == 'Debug'">
+    <OutputPath>$(UserProfile)\AppData\Roaming\FlowLauncher\Plugins\Caffeine-DEBUG\</OutputPath>
+  </PropertyGroup>
+
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <DebugSymbols>false</DebugSymbols>
     <DebugType>None</DebugType>

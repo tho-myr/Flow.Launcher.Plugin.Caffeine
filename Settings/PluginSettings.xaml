@@ -101,7 +101,7 @@
                       Unchecked="StartMouseMoverWithFlowLauncherCheckBox_Changed">
                 <StackPanel Orientation="Horizontal">
                     <TextBlock FontFamily="Segoe MDL2 Assets" 
-                               Text="&#xE962;" 
+                               Text="&#xE7E8;" 
                                FontSize="16" 
                                Margin="0,0,8,0" 
                                VerticalAlignment="Center"
@@ -112,8 +112,8 @@
             </CheckBox>
         </StackPanel>
         
-        <StackPanel Grid.Row="7" Orientation="Vertical" VerticalAlignment="Top" Margin="0,5,0,10">
-            <StackPanel Orientation="Horizontal" Margin="0,5,0,5">
+        <StackPanel Grid.Row="7" Orientation="Vertical" VerticalAlignment="Top" Margin="0,10,0,10">
+            <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
                 <TextBlock FontFamily="Segoe MDL2 Assets" 
                            Text="&#xE916;" 
                            FontSize="16" 
@@ -124,12 +124,18 @@
                            VerticalAlignment="Center" 
                            Margin="0,0,10,0"/>
                 <TextBox x:Name="MouseMoverDelayTextBox"
-                         Width="60"
+                         Width="120"
                          Height="25"
                          VerticalAlignment="Center"
                          VerticalContentAlignment="Center"
-                         TextChanged="MouseMoverDelayTextBox_Changed"/>
+                         TextChanged="MouseMoverDelayTextBox_TextChanged"/>
             </StackPanel>
+            <TextBlock x:Name="MouseMoverDelayErrorText"
+                       Text="Please enter a value between 1 and 3600 seconds. Will revert to last valid value."
+                       FontSize="11" 
+                       Margin="24,2,0,0"
+                       Foreground="Red"
+                       Visibility="Collapsed"/>
             <TextBlock Text="How long to wait after no user mouse movement before starting automatic movement" 
                        FontSize="11" 
                        Margin="24,0,0,0"
