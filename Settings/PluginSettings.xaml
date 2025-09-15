@@ -15,6 +15,7 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         
@@ -112,7 +113,26 @@
             </CheckBox>
         </StackPanel>
         
-        <StackPanel Grid.Row="7" Orientation="Vertical" VerticalAlignment="Top" Margin="0,10,0,10">
+        <StackPanel Grid.Row="7" Orientation="Vertical" VerticalAlignment="Top">
+            <CheckBox x:Name="SendMouseMoverNotificationsCheckBox"
+                      VerticalAlignment="Center"
+                      Margin="0,5,0,5"
+                      Checked="SendMouseMoverNotificationsCheckBox_Changed"
+                      Unchecked="SendMouseMoverNotificationsCheckBox_Changed">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock FontFamily="Segoe MDL2 Assets" 
+                               Text="&#xE7F3;" 
+                               FontSize="16" 
+                               Margin="0,0,8,0" 
+                               VerticalAlignment="Center"
+                               Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}"/>
+                    <TextBlock Text="Send notifications when mouse mover starts/stops" 
+                               VerticalAlignment="Center"/>
+                </StackPanel>
+            </CheckBox>
+        </StackPanel>
+        
+        <StackPanel Grid.Row="8" Orientation="Vertical" VerticalAlignment="Top" Margin="0,10,0,10">
             <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
                 <TextBlock FontFamily="Segoe MDL2 Assets" 
                            Text="&#xE916;" 

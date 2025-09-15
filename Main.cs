@@ -32,6 +32,9 @@ public class Caffeine : IPlugin, ISettingProvider, IDisposable
         _mouseMoverIconPath = Path.Combine(context.CurrentPluginMetadata.PluginDirectory, "Images/mouse-icon.png");
         _settingsIconPath = Path.Combine(context.CurrentPluginMetadata.PluginDirectory, "Images/settings-icon.png");
 
+        // Initialize notification manager
+        NotificationManager.Initialize(context, _settings);
+
         // Configure mouse mover delay
         MouseMover.SetUserMovementDelay(_settings.MouseMoverDelaySeconds);
 
@@ -132,7 +135,7 @@ public class Caffeine : IPlugin, ISettingProvider, IDisposable
             PowerUtilities.PreventPowerSave();
             IsActive = true;
             if (_settings.ShowTrayIcon) TrayIconManager.ShowTray(_context);
-            if (_settings.SendNotifications) _context.API.ShowMsg("Caffeine - Flow Launcher ☕", "Caffeine is now active 🟢", _iconPath);
+            NotificationManager.NotifyCaffeineStatusChanged(true);
         }
     }
 
@@ -146,7 +149,7 @@ public class Caffeine : IPlugin, ISettingProvider, IDisposable
             PowerUtilities.Shutdown();
             IsActive = false;
             if (_settings.ShowTrayIcon) TrayIconManager.HideTray();
-            if (_settings.SendNotifications) _context.API.ShowMsg("Caffeine - Flow Launcher ☕", "Caffeine is now inactive 🔴", _iconPath);
+            NotificationManager.NotifyCaffeineStatusChanged(false);
         }
     }
 

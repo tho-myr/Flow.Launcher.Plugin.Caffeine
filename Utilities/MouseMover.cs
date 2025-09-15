@@ -67,6 +67,16 @@ public static class MouseMover
         _isRunning = true;
         _mouseMoverCancellation = new CancellationTokenSource();
         
+        // Send notification if NotificationManager is available
+        try
+        {
+            NotificationManager.NotifyMouseMoverStatusChanged(true);
+        }
+        catch
+        {
+            // Ignore if NotificationManager is not initialized yet
+        }
+        
         Task.Run(async () =>
         {
             var random = new Random();
@@ -181,6 +191,16 @@ public static class MouseMover
         _mouseMoverCancellation?.Cancel();
         _isRunning = false;
         _isAutomatedMovement = false;
+        
+        // Send notification if NotificationManager is available
+        try
+        {
+            NotificationManager.NotifyMouseMoverStatusChanged(false);
+        }
+        catch
+        {
+            // Ignore if NotificationManager is not initialized yet
+        }
     }
 
     /// <summary>

@@ -28,6 +28,11 @@ public class Settings
     public bool StartMouseMoverWithFlowLauncher { get; set; } = false;
 
     /// <summary>
+    /// Whether to send notifications when mouse mover starts/stops
+    /// </summary>
+    public bool SendMouseMoverNotifications { get; set; } = true;
+
+    /// <summary>
     /// Delay in seconds before mouse mover starts after no user mouse movement
     /// </summary>
     public int MouseMoverDelaySeconds { get; set; } = 5;

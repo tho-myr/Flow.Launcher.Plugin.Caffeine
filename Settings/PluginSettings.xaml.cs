@@ -33,6 +33,7 @@ public partial class PluginSettings : UserControl
         SendNotificationsCheckBox.IsChecked = _settings.SendNotifications;
         ShowTrayIconCheckBox.IsChecked = _settings.ShowTrayIcon;
         StartMouseMoverWithFlowLauncherCheckBox.IsChecked = _settings.StartMouseMoverWithFlowLauncher;
+        SendMouseMoverNotificationsCheckBox.IsChecked = _settings.SendMouseMoverNotifications;
         MouseMoverDelayTextBox.Text = _settings.MouseMoverDelaySeconds.ToString();
         HideDelayError(); // Clear any error state when loading settings
         _isLoading = false;
@@ -57,6 +58,12 @@ public partial class PluginSettings : UserControl
     }
 
     private void StartMouseMoverWithFlowLauncherCheckBox_Changed(object sender, System.Windows.RoutedEventArgs e)
+    {
+        if (!_isLoading)
+            SaveSettings();
+    }
+
+    private void SendMouseMoverNotificationsCheckBox_Changed(object sender, System.Windows.RoutedEventArgs e)
     {
         if (!_isLoading)
             SaveSettings();
@@ -102,6 +109,7 @@ public partial class PluginSettings : UserControl
         _settings.SendNotifications = SendNotificationsCheckBox.IsChecked ?? true;
         _settings.ShowTrayIcon = ShowTrayIconCheckBox.IsChecked ?? true;
         _settings.StartMouseMoverWithFlowLauncher = StartMouseMoverWithFlowLauncherCheckBox.IsChecked ?? false;
+        _settings.SendMouseMoverNotifications = SendMouseMoverNotificationsCheckBox.IsChecked ?? true;
         
         _context.API.SaveSettingJsonStorage<Settings>();
 
